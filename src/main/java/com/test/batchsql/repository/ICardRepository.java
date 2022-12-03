@@ -18,7 +18,7 @@ public interface ICardRepository {
 
 
     /**
-     * Сохраняет список карточек модели из БД
+     * Сохраняет список карточек модели в БД
      */
     void batchInsert(@NotNull List<ShortCard> shortCards);
 

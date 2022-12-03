@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import javax.sql.DataSource;
 
 /**
- * Устанавливает конфигурации и соединение с базой данных
+ * Устанавливает конфигурации и соединение с БД
  */
 @Configuration
 public class ConfigDbCommon extends DefaultDbConfig{

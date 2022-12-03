@@ -28,7 +28,7 @@ public class CardService {
     }
 
     /**
-     * Сохраняет список карточек модели из БД
+     * Сохраняет список карточек модели в БД
      */
     public void saveCardsList(@NotNull List<ShortCard> shortCards) {
         if(shortCards.isEmpty()) return;

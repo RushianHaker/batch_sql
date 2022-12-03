@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 /**
- * Класс CardRepository - описывает методы работы обработки информации по карточкам
+ * Класс CardRepository - реализует методы работы обработки информации по карточкам
  */
 
 @Slf4j

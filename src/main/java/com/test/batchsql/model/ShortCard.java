@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * В этой модели ShortCard - описание полей для работы с БД.
+ * ShortCard - модель описывающая поля для работы с БД.
  */
 
 @AllArgsConstructor
