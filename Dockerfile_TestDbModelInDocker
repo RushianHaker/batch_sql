@@ -1,0 +1,9 @@
+FROM postgres:14.3
+
+ENV POSTGRES_USER postgres
+ENV POSTGRES_DB postgres
+ENV POSTGRES_PASSWORD postgres
+
+
+COPY src/test/resources/test-scheme/ddl.sql /docker-entrypoint-initdb.d/
+COPY src/test/resources/test-scheme/dml-generated.sql /docker-entrypoint-initdb.d/
