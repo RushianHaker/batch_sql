@@ -6,7 +6,6 @@ import com.test.batchsql.repository.ICardRepository;
 import com.test.batchsql.repository.mapper.ShortCardMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -28,8 +27,7 @@ public class CardRepository implements ICardRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private static final ShortCardMapper SHORT_CARD_MAPPER = new ShortCardMapper();
 
-    public CardRepository(@Qualifier("postgres") NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-                          @Qualifier("postgres") JdbcTemplate jdbcTemplate) {
+    public CardRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
@@ -44,7 +42,7 @@ public class CardRepository implements ICardRepository {
         SqlParameterSource param = new MapSqlParameterSource("names", names);
 
         return namedParameterJdbcTemplate.query(
-                "select id, \"name\", full_name from cards where \"name\" in ( :names ) group by id",
+                "select id, \"name\", full_name from cards where \"name\" in ( :names ) group by id, \"name\", full_name",
                 param, SHORT_CARD_MAPPER);
     }
 
