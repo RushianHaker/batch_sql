@@ -1,6 +1,7 @@
-package com.test.batchsql.api;
+package com.test.batchsql.controller;
 
 import com.google.gson.Gson;
+import com.test.batchsql.config.ConfigDataSourcesOnTestcontainers;
 import com.test.batchsql.model.ShortCard;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,10 +24,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles(profiles = {"junit"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {ConfigDataSourcesOnTestcontainers.class})
 public class CardControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @NonNull
+    public static MultiValueMap<String, String> apiHeaders() {
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.put("Content-Type", List.of("application/json"));
+        return headers;
+    }
 
     @Test
     void getCardsList() {
@@ -49,9 +59,9 @@ public class CardControllerTest {
         assertNotNull(cardsList[0].getName());
         assertEquals(1, cardsList.length);
 
-        assertEquals(1, cardsList[0].getId());
-        assertEquals("a", cardsList[0].getName());
-        assertEquals("a", cardsList[0].getFullName());
+        assertEquals(0, cardsList[0].getId());
+        assertEquals("Mark", cardsList[0].getName());
+        assertEquals("Vasquez", cardsList[0].getFullName());
     }
 
     @Test
@@ -64,12 +74,5 @@ public class CardControllerTest {
         ResponseEntity<String> rsp = restTemplate.exchange("/api/card/insert", HttpMethod.POST,
                 new HttpEntity<>(cards, apiHeaders()), String.class);
         assertEquals(HttpStatus.OK, rsp.getStatusCode());
-    }
-
-    @NonNull
-    public static MultiValueMap<String, String> apiHeaders() {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.put("Content-Type", List.of("application/json"));
-        return headers;
     }
 }
